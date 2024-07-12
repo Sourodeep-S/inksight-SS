@@ -24,8 +24,8 @@ export function absoluteUrl(path: string) {
 
 export function constructMetadata(
   {
-    title = "Quill - voice of the documents",
-    description = "Quill is an open-source software to make chatting to your PDF files easy.",
+    title = "inksight - voice of the documents",
+    description = "inksight is an open-source software to make chatting to your PDF files easy.",
     image = "/thumbnail.png",
     icons = "/favicon.ico",
     noIndex = false
