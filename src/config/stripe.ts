@@ -19,7 +19,7 @@ export const PLANS = [
         pdfsPerMonth: 50,
         pagesPerPdf: 25,
         price: {
-            amount: 14,
+            amount: 50,
             priceIds: {
                 test: process.env.STRIPE_PRICE_ID!,
                 production: ''

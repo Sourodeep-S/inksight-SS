@@ -18,16 +18,16 @@ const Page = () => {
   const pricingItems = [
     {
       plan: 'Free',
-      tagline: 'For small side projects.',
+      tagline: 'For small personal projects.',
       pdfsPerMonth: 10,
       features: [
         {
           text: '5 pages per PDF',
-          tooltip: 'The maximum amount of pages per PDF-file.',
+          tooltip: 'The maximum number of pages per PDF',
         },
         {
           text: '4MB file size limit',
-          tooltip: 'The maximum file size of a single PDF file.',
+          tooltip: 'The maximum size of a single PDF file',
         },
         {
           text: 'Mobile-friendly interface',
@@ -50,11 +50,11 @@ const Page = () => {
       features: [
         {
           text: '25 pages per PDF',
-          tooltip: 'The maximum amount of pages per PDF-file.',
+          tooltip: 'The maximum numner of pages per PDF',
         },
         {
           text: '16MB file size limit',
-          tooltip: 'The maximum file size of a single PDF file.',
+          tooltip: 'The maximum size of a single PDF file',
         },
         {
           text: 'Mobile-friendly interface',
@@ -95,7 +95,7 @@ const Page = () => {
                 })}>
                   {/* Catchy "Upgrade now" banner on top of the Pro plan */}
                   {plan === "Pro" && (
-                    <div className="absolute -top-5 left-0 right-0 mx-auto w-32 rounded-full bg-gradient-to-r from-green-600 to-emerald-500 px-3 py-2 text-sm font-medium">
+                    <div className="absolute -top-5 left-0 right-0 mx-auto w-32 rounded-full bg-gradient-to-r from-green-600 to-lime-400 px-3 py-2 text-sm font-medium">
                       Upgrade now
                     </div>
                   )}
@@ -111,7 +111,7 @@ const Page = () => {
                   {/* Quota (how many PDFs/month) */}
                   <div className="flex h-20 items-center justify-center border-b border-t border-gray-200 bg-gray-50">
                     <div className="flex items-center space-x-1">
-                      <p>{pdfsPerMonth.toLocaleString()} PDFs/month included</p>
+                      <p>{pdfsPerMonth.toLocaleString()} PDFs/mo included</p>
 
                       <Tooltip delayDuration={300}>
                         <TooltipTrigger className="cursor-default ml-1.5">
@@ -133,15 +133,15 @@ const Page = () => {
                         {/* Show a tick (feature included) or a minus sign (feature not included) */}
                         <div className="flex-shrink-0">
                           {negative ? (
-                            <Minus className="h-6 w-6 text-grey-300" />
+                            <Minus className="h-6 w-6 text-red-600" />
                           ) : (
-                            <Check className="h-6 w-6 text-blue-300" />
+                            <Check className="h-6 w-6 text-green-600" />
                           )}
                         </div>
 
                         {/* Describe the feature, with a tooltip at the end for further info */}
                         <div className="flex items-center space-x-1">
-                          <p className={cn('text-gray-400', { 'text-gray-600': negative })}>
+                          <p className={cn('text-black', { 'text-gray-500': negative })}>
                             {text}
                           </p>
 
@@ -168,7 +168,7 @@ const Page = () => {
                     {/* Free plan */}
                     {plan === "Free" && (
                       <Link href="/sign-in" className={buttonVariants({ className: 'w-full', variant: 'secondary' })}>
-                        {user ? "Upgrade now" : "Sign up"}
+                        {user ? "Continue" : "Sign up"}
                         <ArrowRight className="h-5 w-5 ml-1.5" />
                       </Link>
                     )}
@@ -179,7 +179,7 @@ const Page = () => {
                         <UpgradeButton />
                       ) : (
                         <Link href="/sign-in" className={buttonVariants({ className: 'w-full' })}>
-                          Sign up
+                          Upgrade
                           <ArrowRight className="h-5 w-5 ml-1.5" />
                         </Link>
                       )

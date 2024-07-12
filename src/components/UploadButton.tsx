@@ -15,7 +15,7 @@ const UploadButton = ({isSubscribed}: {isSubscribed: boolean}) => {
                 onOpenChange={(v) => {if(!v) setIsOpen(v)}}>
             <DialogTrigger asChild
                            onClick={() => setIsOpen(true)}>
-                <Button>
+                <Button className="hover:bg-green-700">
                     Upload PDF
                 </Button>
             </DialogTrigger>

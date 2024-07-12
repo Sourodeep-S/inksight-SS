@@ -43,7 +43,7 @@ const UploadDropZone = ({ isSubscribed }: { isSubscribed: boolean }) => {
           clearInterval(interval)
           return (prevProgress)
         }
-        return (prevProgress + 5)
+        return (prevProgress + 10)
       })
     }, 500)
 
@@ -61,9 +61,11 @@ const UploadDropZone = ({ isSubscribed }: { isSubscribed: boolean }) => {
         const res = await startUpload(acceptedFile)
 
         if (!res) {
+          setIsUploading(false)
+          setUploadProgress(0)
           return (toast({
-            title: "Something went wrong",
-            description: "Please try again later",
+            title: "PDF max size limit exceeded",
+            description: "Try uploading a smaller file",
             variant: "destructive"
           }))
         }
@@ -74,6 +76,8 @@ const UploadDropZone = ({ isSubscribed }: { isSubscribed: boolean }) => {
         const key = fileResponse?.key
 
         if (!key) {
+          setIsUploading(false)
+          setUploadProgress(0)
           return (toast({
             title: "Something went wrong",
             description: "Please try again later",
@@ -87,18 +91,18 @@ const UploadDropZone = ({ isSubscribed }: { isSubscribed: boolean }) => {
         startPolling({ key })
       }}>
       {({ getRootProps, getInputProps, acceptedFiles }) => (
-        <div {...getRootProps()} className="border h-64 m-4 border-dashed border-gray-300 rounded-lg">
+        <div {...getRootProps()} className="border h-64 m-4 border-dashed border-green-700 rounded-lg">
           <div className="flex items-center justify-center h-full w-full">
             <label htmlFor="dropzone-file"
-              className="flex flex-col items-center justify-center w-full h-full rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+              className="flex flex-col items-center justify-center w-full h-full rounded-lg cursor-pointer bg-gray-100 hover:bg-green-100">
 
               {/* Cloud icon, instructions, and text stating the max file size */}
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <Cloud className="h-6 w-6 text-zinc-500 mb-2" />
+                <Cloud className="h-6 w-6 text-zinc-700 mb-2" />
                 <p className="mb-2 text-sm text-zinc-700">
-                  <span className="font-semibold">Click to upload</span>&nbsp;or drag and drop
+                  <span className="font-bold p-2">Click to upload</span> <br /><span className="p-12 text-base text-zinc-700 ">or</span><br /> <span className="font-bold p-3">Drop from PC</span>
                 </p>
-                <p className="text-xs text-zinc-500">
+                <p className="text-sm text-zinc-500 font-semibold">
                   PDF (up to {isSubscribed ? "16" : "4"}MB)
                 </p>
               </div>

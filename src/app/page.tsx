@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react"
 import { buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
+import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export default function Home() {
   return (
@@ -17,14 +18,14 @@ export default function Home() {
           Chat with your <span className="text-green-600">documents</span> in seconds.
         </h1>
         <p className="mt-5 max-w-prose text-zinc-700 sm:text-lg">
-          inksight allows you to have conversations with any PDF document. Simply upload your file and start asking questions right away.
+          inksight allows you to chat with any PDF document. Simply upload your file and start asking questions right away.
         </p>
-        <Link className={buttonVariants({
+        <LoginLink className={buttonVariants({
           size: "lg",
-          className: "mt-5"
-        })} href="/dashboard" target="_blank">
+          className: "mt-5 hover:bg-emerald-700"
+        })} >
           Get started  <ArrowRight className="ml-2 h-5 w-5" />
-        </Link>
+        </LoginLink>
       </MaxWidthWrapper>
 
       {/* value proposition section */}
@@ -67,7 +68,7 @@ export default function Home() {
                   Start chatting in minutes
                 </h2>
                 <p className="mt-4 text-lg text-gray-600">
-                  Chatting to your PDF files has never been easier than with inksight.
+                  Chatting with your PDFs is easier than ever before with <span className="font-semibold text-green-600">inksight</span>
                 </p>
               </div>
             </div>
@@ -78,10 +79,10 @@ export default function Home() {
               <li className="md:flex-1">
                 <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pl-0 md:pt-4">
                   <span className="text-sm font-medium text-green-600">Step 1</span>
-                  <span className="text-xl font-semibold">Sign up for an account</span>
+                  <span className="text-xl font-semibold">Create an account</span>
                   <span className="mt-2 text-zinc-700">
-                    Either start out with a free plan or choose our&nbsp;
-                    <Link href="/pricing" className="text-green-700 underline underline-offset-2">pro plan</Link>.
+                    Start out with a free plan or choose our <br />
+                    <Link href="/pricing" className="text-green-700 underline underline-offset-2"> Pro plan</Link>.
                   </span>
                 </div>
               </li>
@@ -97,8 +98,8 @@ export default function Home() {
               <li className="md:flex-1">
                 <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pl-0 md:pt-4">
                   <span className="text-sm font-medium text-green-600">Step 3</span>
-                  <span className="text-xl font-semibold">Start asking questions</span>
-                  <span className="mt-2 text-zinc-700">It&apos;s that simple. Try out inksight today - it really takes less than a minute</span>
+                  <span className="text-xl font-semibold">You&apos;re all set</span>
+                  <span className="mt-2 text-zinc-700">Start asking questions. <br />It&apos;s that simple.</span>
                 </div>
               </li>
             </ol>
