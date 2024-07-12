@@ -166,29 +166,35 @@ const Page = () => {
                   {/* Button to subscribe to the plan */}
                   <div className="p-5">
                     {/* Free plan */}
-                    {plan === "Free" && (
-                      <Link href="/sign-in" className={buttonVariants({ className: 'w-full', variant: 'secondary' })}>
-                        {user ? "Continue" : "Sign up"}
-                        <ArrowRight className="h-5 w-5 ml-1.5" />
+                    {plan === 'Free' ? (
+                      <Link
+                        href={
+                          user ? '/dashboard' : '/sign-in'
+                        }
+                        className={buttonVariants({
+                          className: 'w-full',
+                          variant: 'secondary',
+                        })}>
+                        {user ? 'Continue' : 'Sign up'}
+                        <ArrowRight className='h-5 w-5 ml-1.5' />
+                      </Link>
+                    ) : user ? (
+                      <UpgradeButton />
+                    ) : (
+                      <Link
+                        href='/sign-in'
+                        className={buttonVariants({
+                          className: 'w-full',
+                        })}>
+                        {user ? 'Upgrade now' : 'Sign up'}
+                        <ArrowRight className='h-5 w-5 ml-1.5' />
                       </Link>
                     )}
-
-                    {/* Pro plan. If a free plan user is already logged in, we show a fancy "Upgrade" button */}
-                    {plan === "Pro" && (
-                      user ? (
-                        <UpgradeButton />
-                      ) : (
-                        <Link href="/sign-in" className={buttonVariants({ className: 'w-full' })}>
-                          Upgrade
-                          <ArrowRight className="h-5 w-5 ml-1.5" />
-                        </Link>
-                      )
-                    )}
                   </div>
-
                 </div>
               )
-            })}
+            }
+            )}
           </TooltipProvider>
         </div>
       </MaxWidthWrapper>
