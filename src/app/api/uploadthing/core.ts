@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
- 
+
 import { PDFLoader } from "langchain/document_loaders/fs/pdf"
 import { PineconeStore } from "@langchain/pinecone";
 import { getPineconeClient } from "@/lib/pinecone";
@@ -11,28 +11,28 @@ import { PLANS } from "@/config/stripe";
 
 
 const f = createUploadthing();
- 
-const middleware = async () => {
-        // This code runs on the server before upload
 
-        const { getUser } = getKindeServerSession()
-        const user = getUser()
-  
-        // If no user is logged in, throw error and stop uploading to uploadThing
-        if(!user || !user.id) throw new Error("Unauthorized")
-         
-        const subscriptionPlan = await getUserSubscriptionPlan()
-  
-        // Whatever is returned here is accessible in onUploadComplete as `metadata`
-        return({subscriptionPlan, userId: user.id})
+const middleware = async () => {
+  // This code runs on the server before upload
+
+  const { getUser } = getKindeServerSession()
+  const user = getUser()
+
+  // If no user is logged in, throw error and stop uploading to uploadThing
+  if (!user || !user.id) throw new Error("Unauthorized")
+
+  const subscriptionPlan = await getUserSubscriptionPlan()
+
+  // Whatever is returned here is accessible in onUploadComplete as `metadata`
+  return ({ subscriptionPlan, userId: user.id })
 }
 
 interface onUploadCompleteProps {
   metadata: Awaited<ReturnType<typeof middleware>>,
-  file: {key: string, name:string, url: string}
+  file: { key: string, name: string, url: string }
 }
 
-const onUploadComplete = async ({metadata, file}: onUploadCompleteProps) => {
+const onUploadComplete = async ({ metadata, file }: onUploadCompleteProps) => {
 
   // Prevent bug in which sometimes this callback gets called twice after file upload finishes
   const fileExists = await db.file.findFirst({
@@ -68,21 +68,23 @@ const onUploadComplete = async ({metadata, file}: onUploadCompleteProps) => {
     // Enforce the limit on number of pages for free and paid users
     const pagesAmt = pageLevelDocs.length
 
-    const {subscriptionPlan} = metadata
-    const {isSubscribed} = subscriptionPlan
+    const { subscriptionPlan } = metadata
+    const { isSubscribed } = subscriptionPlan
 
     const isProExceeded = pagesAmt > PLANS.find((plan) => plan.name === "Pro")!.pagesPerPdf
     const isFreeExceeded = pagesAmt > PLANS.find((plan) => plan.name === "Free")!.pagesPerPdf
 
-    if ((isSubscribed && isProExceeded) || (!isSubscribed && isFreeExceeded)){
+    if ((isSubscribed && isProExceeded) || (!isSubscribed && isFreeExceeded)) {
       await db.file.update({
         data: {
           uploadStatus: 'FAILED',
         },
         where: {
           id: createdFile.id,
-        }
-      })
+          userId: metadata.userId,
+        },
+      });
+      return;
     }
 
     // Vectorize and index the entire document
@@ -118,7 +120,8 @@ const onUploadComplete = async ({metadata, file}: onUploadCompleteProps) => {
       data: { uploadStatus: "FAILED" },
       where: {
         id: createdFile.id,
-        userId: metadata.userId }
+        userId: metadata.userId
+      }
     })
   }
 
@@ -139,5 +142,5 @@ export const ourFileRouter = {
     .onUploadComplete(onUploadComplete)
 
 } satisfies FileRouter;
- 
+
 export type OurFileRouter = typeof ourFileRouter;
